@@ -71,7 +71,7 @@ while True:
         if tot < server_info["MaxPlayers"]:
             if (random.randrange(1,10) == 7):
                 print "A slot is avaliable, you can join! "
-                print happy1
+                print happy3
             elif (random.randrange(1,10) == 3):
                 print "A slot is avaliable, you can join! "
                 print happy2
