@@ -69,19 +69,19 @@ while True:
                 print "    " + player
             
         if tot < server_info["MaxPlayers"]:
-            if (random.randrange(1,10) == 7):
+            if (random.randrange(1,5) == 3):
                 print "A slot is avaliable, you can join! "
                 print happy3
-            elif (random.randrange(1,10) == 3):
+            elif (random.randrange(1,5) == 2):
                 print "A slot is avaliable, you can join! "
                 print happy2
             else:
                 print "A slot is avaliable, you can join! "
                 print happy1
-        elif (random.randrange(1,10) == 7):
+        elif (random.randrange(1,5) == 3):
             print "It's full..."
             print sad3
-        elif (random.randrange(1,10) == 3):
+        elif (random.randrange(1,5) == 2):
             print "It's full..."
             print sad2
         else:
