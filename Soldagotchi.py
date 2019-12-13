@@ -6,12 +6,17 @@ import json
 import time
 import os
 import random
+import requests
+import lxml
+from bs4 import BeautifulSoup, SoupStrainer
 
 refreshdelay = 1
 lasttot = 0
 lastplayers = []
 initialized = False
-
+countrycache = []
+seperator = "016"
+countryresolver = "http://stats.jrgp.us/zabijaka1/player?name="
 server_ip = "45.76.84.88"
 server_port = "23075"
 
@@ -22,8 +27,27 @@ sad1 = "(｡ಠ╭╮ಠ｡)"
 sad2 = "(▰˘︹˘▰)"
 sad3 = "(∩︵∩)"
 
+def CheckCache(value):
+    for entry in countrycache:
+        if value in entry:
+            return entry.split(seperator)[1]
+    return "nonex"
 
-def GetSpace(count):
+def GetCountry(player):
+  if CheckCache(player) == "nonex":
+    page = requests.get(countryresolver+player)
+    data = page.text
+    soupinstance = BeautifulSoup(data,"lxml")
+    try:
+      countrycache.append(player+seperator+soupinstance.find('img').get('title'))
+      return soupinstance.find('img').get('title')
+    except:
+      countrycache.append(player+seperator+"?")
+      return "?"
+  else:
+    return CheckCache(player)
+
+def GetSpace(count): 
     e = ""
     for i in range(0,count):
         e = e + " "
@@ -47,9 +71,14 @@ while True:
         tot = tot + 1
         tempplayers.append(p)
     print server_info["Name"]+" "+"["+str(tot)+"]:"
-    print GetSpace(5)+"Players:"
+    print GetSpace(5)+"│"
+    print GetSpace(5)+"│"
+    print GetSpace(5)+server_info["CurrentMap"]+":"
+    print GetSpace(10)+"│"
+    print GetSpace(10)+"│"
+    print GetSpace(10)+"Players:"
     for pl in tempplayers:
-        print GetSpace(10)+pl
+        print GetSpace(15)+pl+GetSpace(22-len(pl))+" ["+GetCountry(pl)+"]"
         
     if (initialized == False):
         lasttot = tot
